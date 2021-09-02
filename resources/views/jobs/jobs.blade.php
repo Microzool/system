@@ -127,7 +127,7 @@
                         <h6 class="modal-title">اضافة </h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ url('JobCon/store') }}" method="post">
+                        <form action="{{ route('jobs.store') }}" method="post">
                             {{ csrf_field() }}
 
                             <div class="form-group">
@@ -161,7 +161,7 @@
                     </div>
                     <div class="modal-body">
 
-                        <form action=" {{ url('JobCon/update') }} " method="post" autocomplete="off">
+                        <form action="jobs/update" method="post" autocomplete="off">
                             {{ method_field('patch') }}
                             {{ csrf_field() }}
                             <div class="form-group">
@@ -192,7 +192,7 @@
                         <h6 class="modal-title">حذف الوظيفة</h6><button aria-label="Close" class="close" data-dismiss="modal"
                                                                       type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
-                    <form action=" {{ url('JobCon/destroy') }} " method="post">
+                    <form action=" jobs/destroy " method="post">
                         {{ method_field('delete') }}
                         {{ csrf_field() }}
                         <div class="modal-body">

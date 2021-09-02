@@ -38,6 +38,27 @@ class CourseCon extends Controller
     public function store(Request $request)
     {
         //
+
+        $validatedData = $request->validate([
+            'name' => 'required|unique:courses|max:100',
+            'price' => 'required',
+        ],[
+
+            'name.required' =>'يرجي ادخال اسم الدورة',
+            'name.unique' =>'اسم الدورة مسجل مسبقا',
+            'name.max' =>'اسم الدورة طويل جدا ',
+            'price.required' =>'يرجي ادخال سعر الدورة',
+        ]);
+
+        Courses::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'techer_name' => $request->techer_name,
+            'phone' => $request->phone,
+            'course_duration' => $request->course_duration,
+        ]);
+        session()->flash('Add', 'تم اضافة الدورة بنجاح ');
+        return redirect('/courses');
     }
 
     /**
@@ -72,6 +93,29 @@ class CourseCon extends Controller
     public function update(Request $request, $id)
     {
         //
+        $id = $request->id;
+        $validatedData = $request->validate([
+            'name' => 'required|max:100|unique:courses,name,'.$id,
+            'price' => 'required',
+        ],[
+
+            'name.required' =>'يرجي ادخال اسم الدورة',
+            'name.unique' =>'اسم الدورة مسجل مسبقا',
+            'name.max' =>'اسم الدورة طويل جدا ',
+            'price.required' =>'يرجي ادخال سعر الدورة',
+        ]);
+        $courses = Courses::find($id);
+        $courses ->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'techer_name' => $request->techer_name,
+            'phone' => $request->phone,
+            'course_duration' => $request->course_duration,
+        ]);
+        session()->flash('edit', 'تم تعديل الدورة بنجاح ');
+        return redirect('/courses');
+
+
     }
 
     /**
@@ -80,8 +124,12 @@ class CourseCon extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         //
+        $id = $request->id;
+        Courses::find($id)->delete();
+        session()->flash('delete','تم حذف الدورة بنجاح');
+        return redirect('/courses');
     }
 }

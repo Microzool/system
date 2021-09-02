@@ -8,11 +8,7 @@ use Illuminate\Http\Request;
 
 class EmployeeCon extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         //
@@ -21,44 +17,53 @@ class EmployeeCon extends Controller
         return view("employee.employee",compact('jobs','employee'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         //
+        $validatedData = $request->validate([
+            'name' => 'required|max:50',
+            'phone' => 'required|max:20|unique:employee,phone',
+            'salary' => 'required|numeric',
+            'job_id' => 'required',
+        ],[
+
+            'name.required' =>'يرجي ادخال اسم الموظف',
+            'phone.required' =>'يرجي ادخال رقم الهاتف ',
+            'salary.required' =>'يرجي ادخال المرتب',
+            'job_id.required' =>'يرجي ادخال الوظيفة',
+
+            'name.max' =>'اسم الموظف طويل جدا ',
+            'phone.max' =>'رقم الهاتف طويل جدا ',
+            'statement.max' =>'اسم البيان طويل جدا ',
+            'salary.numeric' =>'يرجي ادخال مرتب صحيح',
+
+        ]);
+
+        Employee::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'salary' => $request->salary,
+            'job_id' => $request->job_id,
+        ]);
+        session()->flash('Add', 'تم اضافة موظف بنجاح ');
+        return redirect('/employee');
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         //
@@ -74,6 +79,37 @@ class EmployeeCon extends Controller
     public function update(Request $request, $id)
     {
         //
+        //
+        $id = $request->id;
+        $validatedData = $request->validate([
+            'name' => 'required|max:50',
+            'phone' => 'required|max:20|unique:employee,phone,'.$id,
+            'salary' => 'required|numeric',
+            'job_id' => 'required',
+        ],[
+
+            'name.required' =>'يرجي ادخال اسم الموظف',
+            'phone.required' =>'يرجي ادخال رقم الهاتف ',
+            'salary.required' =>'يرجي ادخال المرتب',
+            'job_id.required' =>'يرجي ادخال الوظيفة',
+
+            'name.max' =>'اسم الموظف طويل جدا ',
+            'phone.max' =>'رقم الهاتف طويل جدا ',
+            'statement.max' =>'اسم البيان طويل جدا ',
+            'salary.numeric' =>'يرجي ادخال مرتب صحيح',
+
+        ]);
+
+        $Employee = Employee::find($id);
+        $Employee ->update([
+
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'salary' => $request->salary,
+            'job_id' => $request->job_id,
+        ]);
+        session()->flash('Add', 'تم تعديل موظف بنجاح ');
+        return redirect('/employee');
     }
 
     /**
@@ -82,8 +118,12 @@ class EmployeeCon extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         //
+        $id = $request->id;
+        Employee::find($id)->delete();
+        session()->flash('delete','تم حذف الموظف بنجاح');
+        return redirect('/employee');
     }
 }

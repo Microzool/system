@@ -9,10 +9,16 @@ class Students extends Model
     protected $table = "students";
     protected $fillable = ['full_name' ,'phone','course_id'];
 
+    public function scopeSelection($query){
+        return $query -> select('id','full_name','phone','course_id');
+    }
+
+
+    // Relation
     public function course()
     {
-
-        return $this->hasOne('App\Courses' , 'id');
-
-    } // end of course
+        return $this->belongsTo(Courses::class ,'course_id' ,'id');
+    }
 }
+
+

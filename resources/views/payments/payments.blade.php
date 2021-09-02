@@ -89,6 +89,7 @@
                                 <th class="border-bottom-0">المبلغ </th>
                                 <th class="border-bottom-0">زمن الفاتورة </th>
                                 <th class="border-bottom-0"> العمليات</th>
+{{--                                <th class="border-bottom-0"> العمليات</th>--}}
                             </tr>
                             </thead>
                             <tbody>
@@ -97,9 +98,9 @@
                                     <td>{{ $payment ->id}}</td>
                                     <td>{{ $payment ->date}}</td>
                                     <td>{{ $payment ->statement }}</td>
-
                                     <td>{{ $payment ->amount}}</td>
                                     <td>{{ $payment ->created_at}}</td>
+
                                     <td>
 
                                         <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
@@ -120,6 +121,16 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            <tr>
+                                <td class="text-primary">الإجمالي</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td  class="text-primary">{{ App\Munsarifat::sum('amount') }}</td>
+                            </tr>
+
+
 
                             </tbody>
                         </table>
@@ -136,7 +147,7 @@
                         <h6 class="modal-title">اضافة </h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('students.store') }}" method="post">
+                        <form action="{{ route('payments.store') }}" method="post">
                             {{ csrf_field() }}
 
                             <div class="form-group">
@@ -183,7 +194,7 @@
                     </div>
                     <div class="modal-body">
 
-                        <form action=" " method="post" autocomplete="off">
+                        <form action="payments/update " method="post" autocomplete="off">
                             {{ method_field('patch') }}
                             {{ csrf_field() }}
                             <div class="form-group">
@@ -228,7 +239,7 @@
                         <h6 class="modal-title">حذف الفاتورة</h6><button aria-label="Close" class="close" data-dismiss="modal"
                                                                       type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
-                    <form action=" " method="post">
+                    <form action=" payments/destroy " method="post">
                         {{ method_field('delete') }}
                         {{ csrf_field() }}
                         <div class="modal-body">

@@ -13,7 +13,7 @@ class Courses extends Model
     public function student()
     {
 
-        return $this->belongsTo('App\Students',  'course_id');
+        return $this->hasOne('App\Students',  'course_id');
 
     }
 

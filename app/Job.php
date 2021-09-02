@@ -11,10 +11,16 @@ class Job extends Model
     protected $fillable = ['id','name'];
 
 
+//    public function employee()
+//    {
+//
+//        return $this-> hasOne('App\Job',  'job_id' ,);
+//
+//    }
+
+    // Relation
     public function employee()
     {
-
-        return $this->belongsTo('App\Job',  'job_id');
-
+        return $this->hasOne('App\Job' ,'job_id' , 'id');
     }
 }

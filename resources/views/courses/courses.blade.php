@@ -192,7 +192,7 @@
                     </div>
                     <div class="modal-body">
 
-                        <form action="sections/update" method="post" autocomplete="off">
+                        <form action="courses/update" method="post" autocomplete="off">
                             {{ method_field('patch') }}
                             {{ csrf_field() }}
                             <div class="form-group">
@@ -243,7 +243,7 @@
                         <h6 class="modal-title">حذف القسم</h6><button aria-label="Close" class="close" data-dismiss="modal"
                                                                       type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
-                    <form action="courses.destroy" method="post">
+                    <form action="courses/destroy" method="post">
                         {{ method_field('delete') }}
                         {{ csrf_field() }}
                         <div class="modal-body">

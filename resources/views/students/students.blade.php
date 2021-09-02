@@ -140,19 +140,19 @@
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">اسم الطالب</label>
-                                <input type="text" class="form-control" id="name" name="full_name">
+                                <input type="text" class="form-control" id="full_name" name="full_name">
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1"> رقم الهاتف</label>
-                                <input type="text" class="form-control" id="price" name="phone">
+                                <input type="text" class="form-control" id="phone" name="phone">
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1"> اسم الدورة</label> <br>
                                 <select name="course_id" id="course_id" class="form-control">
-                                    @foreach($students as $student)
-                                    <option value="{{$student->course->id}}"> {{ $student->course->name }}</option>
+                                    @foreach($courses as $course)
+                                    <option value="{{$course->id}}"> {{ $course->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -186,7 +186,7 @@
                     </div>
                     <div class="modal-body">
 
-                        <form action=" " method="post" autocomplete="off">
+                        <form action="students/update " method="post" autocomplete="off">
                             {{ method_field('patch') }}
                             {{ csrf_field() }}
                             <div class="form-group">
@@ -206,9 +206,12 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1"> اسم الدورة</label> <br>
                                     <select name="course_id" id="course_id" class="form-control">
-                                        @foreach($students as $student)
-                                            <option value="{{$student->course->id}}"> {{ $student->course->name }}</option>
+
+
+                                            @foreach($courses as $course)
+                                            <option  value="{{$course->id}}"  > {{$course->name}}</option>
                                         @endforeach
+
                                     </select>
                                 </div>
 
@@ -235,7 +238,8 @@
                         <h6 class="modal-title">حذف الدورة</h6><button aria-label="Close" class="close" data-dismiss="modal"
                                                                       type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
-                    <form action=" " method="post">
+
+                    <form action="students/destroy" method="post">
                         {{ method_field('delete') }}
                         {{ csrf_field() }}
                         <div class="modal-body">

@@ -38,6 +38,21 @@ class JobCon extends Controller
     public function store(Request $request)
     {
         //
+        $validatedData = $request->validate([
+            'name' => 'required|max:50|min:7|unique:jobs,name,',
+        ],[
+            'name.min' =>' اسم الوظيفة قصير جدا',
+            'name.required' =>'يرجي ادخال اسم الوظيفة',
+            'name.max' =>' اسم الوظيفة طويل جدا',
+            'name.unique' =>'اسم الوظيفة موجود مسبقا',
+        ]);
+
+           Job::create([
+            'name' => $validatedData['name'],
+
+        ]);
+        session()->flash('Add', 'تم اضافة الوظيفه بنجاح ');
+        return redirect('/jobs');
     }
 
     /**
@@ -72,6 +87,21 @@ class JobCon extends Controller
     public function update(Request $request, $id)
     {
         //
+        //
+        $id = $request->id;
+        $validatedData = $request->validate([
+            'name' => 'required|max:50|min:7|unique:jobs,name,'.$id,
+        ],[
+
+            'name.required' =>'يرجي ادخال اسم الوظيفة',
+        ]);
+
+        Job::create([
+            'name' => $validatedData['name'],
+
+        ]);
+        session()->flash('Add', 'تم اضافة الوظيفه بنجاح ');
+        return redirect('/jobs');
     }
 
     /**
@@ -80,8 +110,13 @@ class JobCon extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request  $request)
     {
         //
+
+        $id = $request->id;
+        Job::find($id)->delete();
+        session()->flash('delete','تم حذف الوظيفة بنجاح');
+        return redirect('/jobs');
     }
 }
